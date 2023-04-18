@@ -15,12 +15,17 @@ expected = np.array([
      0,  1,  1,
     -1,  0,  1,
     -1, -1,  0,
-])
+]).reshape(-1, 1) # Convert from row vector to column vector
 
 
 # Matrix of data for testing
 vals = np.linspace(-1.0, 1.0, 32)
 test = np.array([[x, -y] for y in vals for x in vals])
+
+
+# For each row pair in (row[i](a), row[i](b)), perform an outer product
+def elemOuterF(a, b): return np.outer(a, b)
+elemOuter = np.vectorize(elemOuterF, signature='(m),(n)->(m,n)')
 
 
 cmap1 = ListedColormap(
@@ -45,3 +50,4 @@ def plot(data):
         extent=[-1.0, 1.0, -1.0, 1.0],
         norm=CenteredNorm(halfrange=0.5)
     )
+    plt.show()
