@@ -1,12 +1,8 @@
+from math import sqrt
 import numpy as np
+
 import matplotlib.pyplot as plt
-
-from matplotlib.colors import ListedColormap
-
-
-cmap = ListedColormap(
-    [[0.27, 0.67, 1.00], [1.00, 0.49, 0.46]]
-)
+from matplotlib.colors import ListedColormap, LinearSegmentedColormap, CenteredNorm
 
 
 input = np.array([
@@ -22,5 +18,30 @@ expected = np.array([
 ])
 
 
-vals = np.linspace(-1.0, 1.0, 256)
+# Matrix of data for testing
+vals = np.linspace(-1.0, 1.0, 32)
 test = np.array([[x, -y] for y in vals for x in vals])
+
+
+cmap1 = ListedColormap(
+    [[0.27, 0.67, 1.00], [1.00, 0.49, 0.46]]
+)
+cmap2 = LinearSegmentedColormap.from_list(
+    "",
+    [[0.27, 0.67, 1.00], [1.00, 0.49, 0.46]]
+)
+cmap = cmap2
+
+def plotScatter(coords, data):
+    plt.scatter(coords[:, 0], coords[:, 1], c=data, cmap=cmap)
+
+def plot(data):
+    fig, ax = plt.subplots()
+
+    nData = round(sqrt(len(data)))
+    ax.imshow(
+        data.reshape(nData, nData),
+        cmap=cmap,
+        extent=[-1.0, 1.0, -1.0, 1.0],
+        norm=CenteredNorm(halfrange=0.5)
+    )
