@@ -1,10 +1,11 @@
 import numpy as np
+import matplotlib.pyplot as plt
 
-from matplotlib.colors import LinearSegmentedColormap
+from matplotlib.colors import ListedColormap
 
-cmap = LinearSegmentedColormap.from_list(
-    "",
-    [[0.10, 0.58, 0.82], [0.50, 0.55, 0.62], [0.89, 0.39, 0.32]]
+
+cmap = ListedColormap(
+    [[0.27, 0.67, 1.00], [1.00, 0.49, 0.46]]
 )
 
 
@@ -21,5 +22,5 @@ expected = np.array([
 ])
 
 
-vals = np.linspace(-1.0, 1.0, 11)
+vals = np.linspace(-1.0, 1.0, 256)
 test = np.array([[x, -y] for y in vals for x in vals])
