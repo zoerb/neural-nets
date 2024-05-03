@@ -5,11 +5,14 @@ import matplotlib.pyplot as plt
 from matplotlib.colors import ListedColormap, LinearSegmentedColormap, CenteredNorm
 
 
-input = np.array([
+input1 = np.array([
     [-1.0,  1.0], [0.0,  1.0], [1.0,  1.0],
     [-1.0,  0.0], [0.0,  0.0], [1.0,  0.0],
     [-1.0, -1.0], [0.0, -1.0], [1.0, -1.0],
 ])
+
+inputVals = np.linspace(-1.0, 1.0, 4)
+input2 = np.array([[x, -y] for y in inputVals for x in inputVals])
 
 expected1 = np.array([
     1, 1, 1,
@@ -21,8 +24,21 @@ expected2 = np.array([
     0, 1, 1,
     1, 0, 0,
     1, 0, 0,
-]).reshape(-1, 1) # Convert from row vector to column vector
+]).reshape(-1, 1)
 
+expected3 = np.array([
+    1, 1, 0, 0,
+    0, 0, 1, 1,
+    0, 1, 0, 1,
+    1, 0, 1, 0,
+]).reshape(-1, 1)
+
+expected4 = np.array([
+    1, 0, 0, 0,
+    0, 1, 1, 1,
+    0, 1, 0, 1,
+    1, 0, 1, 0,
+]).reshape(-1, 1)
 
 # Matrix of data for testing
 vals = np.linspace(-1.1, 1.1, 32)
@@ -53,7 +69,7 @@ norm = norm=CenteredNorm(vcenter=0.5, halfrange=1.5)
 def plotScatter(coords, data):
     plt.scatter(coords[:, 0], coords[:, 1], c=data, cmap=cmap, norm=norm)
 
-def plot(data, expected):
+def plot(input, data, expected):
     fig, ax = plt.subplots()
 
     nData = round(sqrt(len(data)))
