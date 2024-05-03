@@ -38,16 +38,20 @@ elemDot = np.vectorize(elemDotF, signature='(m, n),(o)->(m, n)')
 
 
 cmap1 = ListedColormap(
-    [[0.27, 0.67, 1.00], [1.00, 0.49, 0.46]]
+    [[0.28, 0.67, 1.00], [1.00, 0.49, 0.43]]
 )
 cmap2 = LinearSegmentedColormap.from_list(
     "",
-    [[0.27, 0.67, 1.00], [1.00, 0.49, 0.46]]
+    [[0.30, 0.73, 0.32], [0.28, 0.67, 1.00], [1.00, 0.49, 0.43], [0.30, 0.73, 0.32]]
 )
 cmap = cmap2
+# Map colors so an output value of 0 corresponds to blue (cmap[1]) and 1
+# corresponds to red (cmap[2]), with green (cmap[0], cmap[3]) idicating
+# values < 0 or > 1
+norm = norm=CenteredNorm(vcenter=0.5, halfrange=1.5)
 
 def plotScatter(coords, data):
-    plt.scatter(coords[:, 0], coords[:, 1], c=data, cmap=cmap)
+    plt.scatter(coords[:, 0], coords[:, 1], c=data, cmap=cmap, norm=norm)
 
 def plot(data, expected):
     fig, ax = plt.subplots()
@@ -57,8 +61,8 @@ def plot(data, expected):
         data.reshape(nData, nData),
         cmap=cmap,
         extent=[-1.1, 1.1, -1.1, 1.1],
-        norm=CenteredNorm(vcenter=0.5, halfrange=0.2)
+        norm=norm
     )
-    ax.scatter(input[:, 0], input[:, 1], c=expected, cmap=cmap)
+    ax.scatter(input[:, 0], input[:, 1], c=expected, cmap=cmap, norm=norm)
 
     plt.show()
